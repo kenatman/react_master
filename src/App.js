@@ -5,21 +5,24 @@ const Father = styled.div`
   display: flex;
 `;
 
-const Box = styled.div`
-  background-color: ${(props) => props.bgColor};
-  width: 100px;
-  height: 100px;
+const Btn = styled.button`
+  background-color: tomato;
+  border-radius: 15px;
+  border: none;
 `;
 
-const Circle = styled(Box)`
-  border-radius: 50%;
+const Input = styled.input.attrs({ required: true, minLength: 10 })`
+  background-color: green;
+  border: 1px solid black;
 `;
 
 const App = () => {
   return (
     <Father>
-      <Box bgColor="teal" />
-      <Circle bgColor="tomato" />
+      <Btn as="a">This is btn..</Btn>
+      <Input />
+      <Input />
+      <Input />
     </Father>
   );
 };
