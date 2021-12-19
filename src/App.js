@@ -1,29 +1,43 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
-const Father = styled.div`
+const Wrapper = styled.div`
   display: flex;
 `;
 
-const Btn = styled.button`
-  background-color: tomato;
-  border-radius: 15px;
-  border: none;
+const Anim = keyframes`
+0%{transform:rotate(0deg);
+border-radius: 0%;
+}
+50%{
+border-radius: 50%;}
+100%{transform:rotate(360deg);
+border-radius: 0%;}}
 `;
+const Box = styled.div`
+  width: 200px;
+  height: 200px;
+  background-color: tomato;
+  animation: ${Anim} 1s linear infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  span {
+    font-size: 50px;
 
-const Input = styled.input.attrs({ required: true, minLength: 10 })`
-  background-color: green;
-  border: 1px solid black;
+    &:hover {
+      font-size: 80px;
+    }
+  }
 `;
 
 const App = () => {
   return (
-    <Father>
-      <Btn as="a">This is btn..</Btn>
-      <Input />
-      <Input />
-      <Input />
-    </Father>
+    <Wrapper>
+      <Box>
+        <span>😍</span>
+      </Box>
+    </Wrapper>
   );
 };
 
