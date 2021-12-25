@@ -5,7 +5,7 @@ import Circle from "./Circle";
 const App = () => {
   return (
     <div>
-      <Circle bgColor="teal" />
+      <Circle bgColor="teal" borderColor="yellow" text="From app" />
       <Circle bgColor="tomato" />
     </div>
   );
