@@ -2,10 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { ThemeProvider } from "styled-components";
 import App from "./App";
-import { darkMode, lightMode } from "./theme";
+import { theme } from "./theme";
 
 ReactDOM.render(
-  <ThemeProvider theme={darkMode}>
+  <ThemeProvider theme={theme}>
     <App />
   </ThemeProvider>,
   document.getElementById("root")
