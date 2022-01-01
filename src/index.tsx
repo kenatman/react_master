@@ -1,18 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-
 import { ThemeProvider } from "styled-components";
 import App from "./App";
-
-const darkMode = {
-  textColor: "whitesmoke",
-  backgroundColor: "#111",
-};
-
-const whiteMode = {
-  textColor: "#111",
-  backgroundColor: "whitesmoke",
-};
+import { darkMode, lightMode } from "./theme";
 
 ReactDOM.render(
   <ThemeProvider theme={darkMode}>
