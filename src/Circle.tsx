@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 interface CircleProps {
   bgColor: string;
   borderColor?: string;
-  text?: string;
 }
 
 interface ContainerProps {
@@ -20,18 +19,15 @@ const Container = styled.div<ContainerProps>`
   border: 1px solid ${(props) => props.borderColor};
 `;
 
-const Circle = ({
-  bgColor,
-  borderColor,
-  text = `from default parameter`,
-}: CircleProps) => {
+const Circle = ({ bgColor, borderColor }: CircleProps) => {
+  const [value, setValue] = useState<string>("");
+
   return (
     <Container
       bgColor={bgColor}
-      borderColor={borderColor ?? bgColor} // Null 병합연산자
-    >
-      {text}
-    </Container>
+      borderColor={borderColor ?? bgColor}
+      // Null 병합연산자
+    />
   );
 };
 
