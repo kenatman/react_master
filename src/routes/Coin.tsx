@@ -87,10 +87,34 @@ const Loader = styled.div`
   text-align: center;
 `;
 
+const OverView = styled.div`
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px 20px;
+  border-radius: 10px;
+`;
+
+const OverViewItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  span:first-child {
+    font-size: 10px;
+    font-weight: 400;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+`;
+
+const Description = styled.p`
+  margin: 20px 0;
+`;
+
 const Coin = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [info, setInfo] = useState<IInfo>();
-  const [priceInfo, setPriceInfo] = useState<IPriceInfo>({});
+  const [priceInfo, setPriceInfo] = useState<IPriceInfo>();
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
 
@@ -104,17 +128,47 @@ const Coin = () => {
       ).json();
       setInfo(infoData);
       setPriceInfo(priceData);
-      console.log(infoData);
-      console.log(priceData);
+      setIsLoading(false);
     })();
-  }, []);
+  }, [coinId]);
 
   return (
     <Container>
       <Header>
         <Title>{state?.name || `Loading...`} </Title>
       </Header>
-      {isLoading ? <Loader>LOADING....</Loader> : null}
+      {isLoading ? (
+        <Loader>LOADING....</Loader>
+      ) : (
+        <>
+          <OverView>
+            <OverViewItem>
+              <span>Rank :</span>
+              <span>{info?.rank}</span>
+            </OverViewItem>
+
+            <OverViewItem>
+              <span>Symbol : </span>
+              <span>${info?.symbol}</span>
+            </OverViewItem>
+            <OverViewItem>
+              <span>Open Source : </span>
+              <span>{info?.open_source ? "YES" : "NO"}</span>
+            </OverViewItem>
+          </OverView>
+          <Description>{info?.description}</Description>
+          <OverView>
+            <OverViewItem>
+              <span>Total Supply : </span>
+              <span>{priceInfo?.total_supply}</span>
+            </OverViewItem>
+            <OverViewItem>
+              <span>Max Supply : </span>
+              <span>{priceInfo?.max_supply}</span>
+            </OverViewItem>
+          </OverView>
+        </>
+      )}
     </Container>
   );
 };
