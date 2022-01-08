@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { Route, Switch, useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
+import Chart from "./Chart";
+import Price from "./Price";
 
 interface RouteParams {
   coinId: string;
@@ -135,7 +137,9 @@ const Coin = () => {
   return (
     <Container>
       <Header>
-        <Title>{state?.name || `Loading...`} </Title>
+        <Title>
+          {state?.name ? state.name : isLoading ? `LOADING...` : info?.name}{" "}
+        </Title>
       </Header>
       {isLoading ? (
         <Loader>LOADING....</Loader>
@@ -167,6 +171,14 @@ const Coin = () => {
               <span>{priceInfo?.max_supply}</span>
             </OverViewItem>
           </OverView>
+          <Switch>
+            <Route path={`/${coinId}/price`}>
+              <Price />
+            </Route>
+            <Route path={`/${coinId}/chart`}>
+              <Chart />
+            </Route>
+          </Switch>
         </>
       )}
     </Container>
