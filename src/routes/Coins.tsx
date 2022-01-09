@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { fetchCoins } from "../api";
 
 interface ICoin {
   id: string;
@@ -61,7 +63,8 @@ const Loader = styled.div`
 `;
 
 const Coins = () => {
-  const [coins, setCoins] = useState<ICoin[]>([]);
+  const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
+  /* const [coins, setCoins] = useState<ICoin[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -72,7 +75,7 @@ const Coins = () => {
       setCoins(response.slice(0, 100));
       setIsLoading(false);
     })();
-  }, []);
+  }, []); */
   return (
     <Container>
       <Header>
@@ -82,7 +85,7 @@ const Coins = () => {
         <Loader>LOADING....</Loader>
       ) : (
         <CoinsList>
-          {coins.map((coin) => (
+          {data?.slice(0, 100).map((coin) => (
             <Coin key={coin.id}>
               <Link
                 to={{ pathname: `/${coin.id}`, state: { name: coin.name } }}
