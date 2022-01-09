@@ -3,3 +3,15 @@ export function fetchCoins() {
     res.json()
   );
 }
+
+export function fetchInfo(coinId: string) {
+  return fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`).then((res) =>
+    res.json()
+  );
+}
+
+export function fetchTickers(coinId: string) {
+  return fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`).then((res) =>
+    res.json()
+  );
+}

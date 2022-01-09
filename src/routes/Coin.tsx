@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import {
   Link,
   Route,
@@ -8,6 +9,7 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 import styled from "styled-components";
+import { fetchInfo, fetchTickers } from "../api";
 import Chart from "./Chart";
 import Price from "./Price";
 
@@ -143,15 +145,15 @@ const Tab = styled.span<{ isActive: boolean }>`
 `;
 
 const Coin = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [info, setInfo] = useState<IInfo>();
-  const [priceInfo, setPriceInfo] = useState<IPriceInfo>();
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
   const priceMatch = useRouteMatch("/:coinId/price");
   const chartMatch = useRouteMatch("/:coinId/chart");
+  /*   const [isLoading, setIsLoading] = useState(true);
+  const [info, setInfo] = useState<IInfo>();
+  const [priceInfo, setPriceInfo] = useState<IPriceInfo>(); */
 
-  useEffect(() => {
+  /*  useEffect(() => {
     (async () => {
       const infoData = await (
         await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
@@ -163,8 +165,18 @@ const Coin = () => {
       setPriceInfo(priceData);
       setIsLoading(false);
     })();
-  }, [coinId]);
+  }, [coinId]); */
 
+  const { isLoading: isInfoLoading, data: info } = useQuery<IInfo>(
+    ["info", coinId],
+    () => fetchInfo(coinId)
+  );
+  const { isLoading: isTickersLoading, data: tickers } = useQuery<IPriceInfo>(
+    ["tickers", coinId],
+    () => fetchTickers(coinId)
+  );
+
+  const isLoading = isInfoLoading || isTickersLoading;
   return (
     <Container>
       <Header>
@@ -195,11 +207,11 @@ const Coin = () => {
           <OverView>
             <OverViewItem>
               <span>Total Supply : </span>
-              <span>{priceInfo?.total_supply}</span>
+              <span>{tickers?.total_supply}</span>
             </OverViewItem>
             <OverViewItem>
               <span>Max Supply : </span>
-              <span>{priceInfo?.max_supply}</span>
+              <span>{tickers?.max_supply}</span>
             </OverViewItem>
           </OverView>
           <Tabs>
