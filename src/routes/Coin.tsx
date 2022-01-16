@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import { useQuery } from "react-query";
 import {
   Link,
@@ -173,12 +174,20 @@ const Coin = () => {
   );
   const { isLoading: isTickersLoading, data: tickers } = useQuery<IPriceInfo>(
     ["tickers", coinId],
-    () => fetchTickers(coinId)
+    () => fetchTickers(coinId),
+    {
+      refetchInterval: 5000,
+    }
   );
 
   const isLoading = isInfoLoading || isTickersLoading;
   return (
     <Container>
+      <Helmet>
+        <title>
+          {state?.name ? state.name : isLoading ? `LOADING...` : info?.name}
+        </title>
+      </Helmet>
       <Header>
         <Title>
           {state?.name ? state.name : isLoading ? `LOADING...` : info?.name}{" "}
@@ -199,8 +208,8 @@ const Coin = () => {
               <span>${info?.symbol}</span>
             </OverViewItem>
             <OverViewItem>
-              <span>Open Source : </span>
-              <span>{info?.open_source ? "YES" : "NO"}</span>
+              <span>Price : </span>
+              <span>{tickers?.quotes.USD.price.toFixed(3)}</span>
             </OverViewItem>
           </OverView>
           <Description>{info?.description}</Description>
