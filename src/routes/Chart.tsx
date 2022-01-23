@@ -5,6 +5,7 @@ import ApexChart from "react-apexcharts";
 
 interface ChartProps {
   coinId: string;
+  isDark: Boolean;
 }
 
 interface IData {
@@ -18,7 +19,7 @@ interface IData {
   volume: number;
 }
 
-const Chart = ({ coinId }: ChartProps) => {
+const Chart = ({ coinId, isDark }: ChartProps) => {
   const { isLoading, data } = useQuery<IData[]>(
     ["ohlcv", coinId],
     () => fetchCoinHistory(coinId),
@@ -36,7 +37,7 @@ const Chart = ({ coinId }: ChartProps) => {
           type="line"
           series={[{ name: "price", data: data?.map((price) => price.close) }]}
           options={{
-            theme: { mode: "dark" },
+            theme: { mode: isDark ? "dark" : "light" },
             chart: {
               width: 500,
               height: 300,

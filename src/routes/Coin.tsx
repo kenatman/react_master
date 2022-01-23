@@ -145,7 +145,10 @@ const Tab = styled.span<{ isActive: boolean }>`
   }
 `;
 
-const Coin = () => {
+interface IcoinProps {
+  isDark: Boolean;
+}
+const Coin = ({ isDark }: IcoinProps) => {
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
   const priceMatch = useRouteMatch("/:coinId/price");
@@ -209,7 +212,7 @@ const Coin = () => {
             </OverViewItem>
             <OverViewItem>
               <span>Price : </span>
-              <span>{tickers?.quotes.USD.price.toFixed(3)}</span>
+              <span>{tickers?.quotes?.USD?.price.toFixed(3)}</span>
             </OverViewItem>
           </OverView>
           <Description>{info?.description}</Description>
@@ -236,7 +239,7 @@ const Coin = () => {
               <Price />
             </Route>
             <Route path={`/${coinId}/chart`}>
-              <Chart coinId={coinId} />
+              <Chart coinId={coinId} isDark={isDark} />
             </Route>
           </Switch>
         </>
